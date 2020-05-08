@@ -20,25 +20,25 @@ RUN nginx=stable && \
 # Install php7 packages
 RUN apt-get install -y language-pack-en-base && export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && add-apt-repository ppa:ondrej/php && apt-get update -qqy && \
     apt-get install -qqy \
-    php7.0-fpm \
-    php7.0-cli \
-    php7.0-common \
-    php7.0-curl \
-    php7.0-json \
-    php7.0-gd \
-    php7.0-mbstring \
-    php7.0-odbc \
-    php7.0-pgsql \
-    php7.0-mysql \
-    php7.0-sqlite3 \
-    php7.0-xmlrpc \
-    php7.0-opcache \
-    php7.0-intl \
-    php7.0-xml \
-    php7.0-soap \
-    php7.0-zip \
-    php7.0-bz2 \
-    php7.0-dev
+    php7.1-fpm \
+    php7.1-cli \
+    php7.1-common \
+    php7.1-curl \
+    php7.1-json \
+    php7.1-gd \
+    php7.1-mbstring \
+    php7.1-odbc \
+    php7.1-pgsql \
+    php7.1-mysql \
+    php7.1-sqlite3 \
+    php7.1-xmlrpc \
+    php7.1-opcache \
+    php7.1-intl \
+    php7.1-xml \
+    php7.1-soap \
+    php7.1-zip \
+    php7.1-bz2 \
+    php7.1-dev
 
 
 RUN apt-get update && apt-get install -qqy \
@@ -71,9 +71,9 @@ RUN apt-get update && apt-get install -qqy \
 RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev --no-install-recommends \
     && ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin/ \
     && pecl install imagick \
-    && echo "extension=imagick.so" >  /etc/php/7.0/fpm/conf.d/20-imagick.ini \
+    && echo "extension=imagick.so" >  /etc/php/7.1/fpm/conf.d/20-imagick.ini \
     && pecl install apcu \
-    && echo "extension=apcu.so" > /etc/php/7.0/fpm/conf.d/20-apcu.ini \
+    && echo "extension=apcu.so" > /etc/php/7.1/fpm/conf.d/20-apcu.ini \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -93,24 +93,24 @@ RUN sed -i -e "s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf 
     echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # tweak php-fpm config
-RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.0/fpm/php.ini && \
-    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.0/fpm/php.ini && \
-    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/7.0/fpm/php.ini && \
-    sed -i -e "s/cgi.fix_pathinfo=0/cgi.fix_pathinfo=1/g" /etc/php/7.0/fpm/php.ini && \
-    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.0/cli/php.ini && \
-    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/7.0/cli/php.ini && \
-    sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf && \
-    sed -i -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/pm.max_children = 5/pm.max_children = 9/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/pm.start_servers = 2/pm.start_servers = 3/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i -e "s/;clear_env = no/clear_env = no/g" /etc/php/7.0/fpm/pool.d/www.conf
+RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.1/fpm/php.ini && \
+    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.1/fpm/php.ini && \
+    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/7.1/fpm/php.ini && \
+    sed -i -e "s/cgi.fix_pathinfo=0/cgi.fix_pathinfo=1/g" /etc/php/7.1/fpm/php.ini && \
+    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.1/cli/php.ini && \
+    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/7.1/cli/php.ini && \
+    sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf && \
+    sed -i -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/pm.max_children = 5/pm.max_children = 9/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/pm.start_servers = 2/pm.start_servers = 3/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    sed -i -e "s/;clear_env = no/clear_env = no/g" /etc/php/7.1/fpm/pool.d/www.conf
 
 # fix ownership of sock file for php-fpm
-RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-    find /etc/php/7.0/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
+RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+    find /etc/php/7.1/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
 # nginx site conf
 RUN rm -Rf /etc/nginx/conf.d/* && \
@@ -130,9 +130,9 @@ RUN wget -O /tmp/php7-linux-x86-64-beta8.tgz https://downloads.ioncube.com/loade
 RUN tar xvzfC /tmp/php7-linux-x86-64-beta8.tgz /tmp/ \
     && rm /tmp/php7-linux-x86-64-beta8.tgz \
     && mkdir -p /usr/local/ioncube \
-    && cp /tmp/ioncube/ioncube_loader_lin_7.0.so /usr/local/ioncube \
-    && rm -rf /tmp/ioncube_loader_lin_x86-64_7.0b8.so /tmp/README_PHP7_X86_64_BETA \
-    && echo "zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.0.so" >>  /etc/php/7.0/fpm/php.ini
+    && cp /tmp/ioncube/ioncube_loader_lin_7.1.so /usr/local/ioncube \
+    && rm -rf /tmp/ioncube_loader_lin_x86-64_7.1b8.so /tmp/README_PHP7_X86_64_BETA \
+    && echo "zend_extension = /usr/local/ioncube/ioncube_loader_lin_7.1.so" >>  /etc/php/7.1/fpm/php.ini
 
 
 
